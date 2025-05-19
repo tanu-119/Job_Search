@@ -52,21 +52,24 @@ const ProfilePage = () => {
 
   useEffect(() => {
     const fetchProfile = async () => {
-      try {
-        const res = await axios.get(`${API_URL}/api/profile`, {
-          headers: {
-            "x-auth-token": localStorage.getItem("token"),
-          },
-        });
-        if (res.data.profile) {
-          setProfile(res.data.profile);
-        }
-      } catch (error) {
-        console.error("Error fetching profile:", error);
-      } finally {
-        setLoading(false);
+  try {
+    const res = await axios.get(`${API_URL}/api/profile`, {
+      headers: { 
+        "x-auth-token": localStorage.getItem("token") 
       }
-    };
+    });
+    setProfile(res.data.profile || {
+      location: "",
+      yearsOfExperience: 0,
+      skills: [],
+      preferredJobType: "any"
+    });
+  } catch (error) {
+    console.error("Error fetching profile:", error.response?.data || error.message);
+  } finally {
+    setLoading(false);
+  }
+};
 
     fetchProfile();
   }, []);
