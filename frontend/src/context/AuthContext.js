@@ -11,32 +11,34 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      axios
-        .get(`${API_URL}/auth/verify`, {
-          headers: { "x-auth-token": token },
-        })
-        .then((res) => {
-          setUser(res.data.user);
-        })
-        .catch(() => {
-          localStorage.removeItem("token");
-        })
-        .finally(() => {
-          setLoading(false);
-        });
+      axios.get(`${API_URL}/api/auth/verify`, {  // Changed to /api/auth/verify
+        headers: { "x-auth-token": token },
+      })
+      .then((res) => {
+        setUser(res.data.user);
+      })
+      .catch(() => {
+        localStorage.removeItem("token");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
     } else {
       setLoading(false);
     }
   }, []);
 
   const login = async (email, password) => {
-    const res = await axios.post(`${API_URL}/auth/login`, { email, password });
+    const res = await axios.post(`${API_URL}/api/auth/login`, {  // Changed to /api/auth/login
+      email, 
+      password 
+    });
     localStorage.setItem("token", res.data.token);
     setUser(res.data.user);
   };
 
   const signup = async (name, email, password) => {
-    const res = await axios.post(`${API_URL}/auth/signup`, {
+    const res = await axios.post(`${API_URL}/api/auth/signup`, {  // Changed to /api/auth/signup
       name,
       email,
       password,
