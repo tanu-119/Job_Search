@@ -11,7 +11,7 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      axios.get(`${API_URL}/api/auth/verify`, {  // Changed to /api/auth/verify
+      axios.get(`${API_URL}/api/auth/verify`, {
         headers: { "x-auth-token": token },
       })
       .then((res) => {
@@ -29,20 +29,13 @@ export function AuthProvider({ children }) {
   }, []);
 
   const login = async (email, password) => {
-    const res = await axios.post(`${API_URL}/api/auth/login`, {  // Changed to /api/auth/login
-      email, 
-      password 
-    });
+    const res = await axios.post(`${API_URL}/api/auth/login`, { email, password });
     localStorage.setItem("token", res.data.token);
     setUser(res.data.user);
   };
 
   const signup = async (name, email, password) => {
-    const res = await axios.post(`${API_URL}/api/auth/signup`, {  // Changed to /api/auth/signup
-      name,
-      email,
-      password,
-    });
+    const res = await axios.post(`${API_URL}/api/auth/signup`, { name, email, password });
     localStorage.setItem("token", res.data.token);
     setUser(res.data.user);
   };
