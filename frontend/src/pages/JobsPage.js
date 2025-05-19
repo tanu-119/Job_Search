@@ -23,11 +23,13 @@ const JobsPage = () => {
   const [recommendLoading, setRecommendLoading] = useState(false);
   const [error, setError] = useState("");
   const { user } = useAuth();
+   const API_URL = process.env.REACT_APP_API_URL || "https://job-search-backend-fw0t.onrender.com";
+
 
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-       const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/jobs`);
+       const res = await axios.get(`${API_URL}/api/jobs`);
        setJobs(res.data);
       } catch (error) {
         setError("Failed to fetch jobs");
@@ -43,7 +45,7 @@ const JobsPage = () => {
     setRecommendLoading(true);
     try {
       const res = await axios.get(
-    `${process.env.REACT_APP_API_URL}/api/recommendations`,
+    `${API_URL}/api/recommendations`,
     { headers: { "x-auth-token": localStorage.getItem("token") } }
   );
   setRecommendations(res.data);
