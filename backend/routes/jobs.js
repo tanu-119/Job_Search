@@ -58,7 +58,7 @@ const seedJobs = async () => {
 seedJobs();
 
 // Get all jobs
-router.get("/", async (req, res) => {
+router.get("/api/jobs", async (req, res) => {
   try {
     const jobs = await Job.find();
     res.json(jobs);
