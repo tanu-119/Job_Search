@@ -27,8 +27,8 @@ const JobsPage = () => {
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/jobs");
-        setJobs(res.data);
+       const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/jobs`);
+       setJobs(res.data);
       } catch (error) {
         setError("Failed to fetch jobs");
       } finally {
@@ -42,12 +42,11 @@ const JobsPage = () => {
   const getRecommendations = async () => {
     setRecommendLoading(true);
     try {
-      const res = await axios.get("http://localhost:5000/api/recommendations", {
-        headers: {
-          "x-auth-token": localStorage.getItem("token"),
-        },
-      });
-      setRecommendations(res.data.jobs);
+      const res = await axios.get(
+    `${process.env.REACT_APP_API_URL}/api/recommendations`,
+    { headers: { "x-auth-token": localStorage.getItem("token") } }
+  );
+  setRecommendations(res.data);
     } catch (error) {
       setError(error.response?.data?.error || "Failed to get recommendations");
     } finally {
