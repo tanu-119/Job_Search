@@ -38,7 +38,7 @@ const skillsOptions = [
   "Express",
   "Flask",
 ];
-
+ const API_URL = process.env.REACT_APP_API_URL || "https://job-search-backend-fw0t.onrender.com";
 const ProfilePage = () => {
   const { user } = useAuth();
   const [profile, setProfile] = useState({
@@ -53,7 +53,7 @@ const ProfilePage = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/profile`, {
+        const res = await axios.get(`${API_URL}/api/profile`, {
           headers: {
             "x-auth-token": localStorage.getItem("token"),
           },
@@ -84,7 +84,7 @@ const ProfilePage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`${process.env.REACT_APP_API_URL}/api/profile`, profile, {
+      await axios.put(`${API_URL}/api/profile`, profile, {
         headers: {
           "x-auth-token": localStorage.getItem("token"),
         },
