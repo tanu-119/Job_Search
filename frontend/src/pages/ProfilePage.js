@@ -52,16 +52,17 @@ const ProfilePage = () => {
 
   useEffect(() => {
     const fetchProfile = async () => {
-  try {
-    const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/profile`, {
-      headers: { "x-auth-token": localStorage.getItem("token") }
-    });
-    setProfileData(res.data.profile);
-  } catch (err) {
-    console.error("Error fetching profile:", err);
-  }
-};
-
+      try {
+        const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/profile`, {
+          headers: { 
+            'x-auth-token': localStorage.getItem('token') 
+          }
+        });
+        setProfileData(res.data.profile || {});
+      } catch (err) {
+        console.error('Error fetching profile:', err);
+      }
+    };
     fetchProfile();
   }, []);
 
@@ -76,19 +77,21 @@ const ProfilePage = () => {
   };
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  try {
-    await axios.put(
-      `${process.env.REACT_APP_API_URL}/api/profile`,
-      profileData,
-      {
-        headers: { "x-auth-token": localStorage.getItem("token") }
-      }
-    );
-    alert("Profile updated successfully!");
-  } catch (err) {
-    console.error("Error updating profile:", err);
-  }
+     e.preventDefault();
+    try {
+      await axios.put(
+        `${process.env.REACT_APP_API_URL}/api/profile`,
+        profileData,
+        {
+          headers: { 
+            'x-auth-token': localStorage.getItem('token') 
+          }
+        }
+      );
+      alert('Profile updated successfully!');
+    } catch (err) {
+      console.error('Error updating profile:', err);
+    }
 };
 
   if (loading) {
