@@ -16,7 +16,7 @@ app.use(cors({
 }));
 app.use(express.json());
 // Routes
-app.use("/", authRoutes); // This will prefix all auth routes with /api/auth
+//app.use("/", authRoutes); // This will prefix all auth routes with /api/auth
 // Database connection
 mongoose
   .connect(process.env.MONGODB_URI, {
