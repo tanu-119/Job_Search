@@ -85,20 +85,29 @@ const ProfilePage = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.put(`${API_URL}/api/profile`, profile, {
-        headers: {
-          "x-auth-token": localStorage.getItem("token"),
-        },
-      });
-      setSuccess(true);
-      setTimeout(() => setSuccess(false), 3000);
-    } catch (error) {
-      console.error("Error updating profile:", error);
-    }
-  };
-
+  e.preventDefault();
+  try {
+    const res = await axios.put(
+      `${API_URL}/api/profile`,
+      {
+        location: profile.location,
+        yearsOfExperience: profile.yearsOfExperience,
+        skills: profile.skills,
+        preferredJobType: profile.preferredJobType
+      },
+      {
+        headers: { 
+          "x-auth-token": localStorage.getItem("token") 
+        }
+      }
+    );
+    setSuccess(true);
+    setTimeout(() => setSuccess(false), 3000);
+    setProfile(res.data.profile); // Update with returned data
+  } catch (error) {
+    console.error("Error updating profile:", error.response?.data || error.message);
+  }
+};
   if (loading) {
     return (
       <Container maxWidth="md">
