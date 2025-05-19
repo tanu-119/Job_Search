@@ -9,7 +9,6 @@ const recommendationRoutes = require("./routes/recommendations");
 
 const app = express();
 
-const cors = require("cors");
 app.use(cors({
   origin: ["https://job-match-frontend.onrender.com"],
   methods: ["GET", "POST", "PUT"],
