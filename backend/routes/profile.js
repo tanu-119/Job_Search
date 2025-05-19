@@ -4,17 +4,17 @@ const User = require("../models/User");
 const router = express.Router();
 
 // Get profile
-router.get("/", auth, async (req, res) => {
+router.get("/api/profile", auth, async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select("-password");
     res.json(user);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: "Error fetching profile" });
   }
 });
 
 // Update profile
-router.put("/", auth, async (req, res) => {
+router.put("/api/profile", auth, async (req, res) => {
   try {
     const { location, yearsOfExperience, skills, preferredJobType } = req.body;
     const user = await User.findByIdAndUpdate(
@@ -24,7 +24,7 @@ router.put("/", auth, async (req, res) => {
     ).select("-password");
     res.json(user);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ error: "Error updating profile" });
   }
 });
 
