@@ -28,33 +28,33 @@ const JobsPage = () => {
 
   useEffect(() => {
     const fetchJobs = async () => {
-      try {
-       const res = await axios.get(`${API_URL}/api/jobs`);
-       setJobs(res.data);
-      } catch (error) {
-        setError("Failed to fetch jobs");
-      } finally {
-        setLoading(false);
-      }
-    };
-
+  try {
+    const res = await axios.get(`${API_URL}/api/jobs`);
+    setJobs(res.data);
+  } catch (error) {
+    setError(error.response?.data?.error || "Failed to fetch jobs");
+  } finally {
+    setLoading(false);
+  }
+};
     fetchJobs();
   }, []);
 
   const getRecommendations = async () => {
-    setRecommendLoading(true);
-    try {
-      const res = await axios.get(
-    `${API_URL}/api/recommendations`,
-    { headers: { "x-auth-token": localStorage.getItem("token") } }
-  );
-  setRecommendations(res.data);
-    } catch (error) {
-      setError(error.response?.data?.error || "Failed to get recommendations");
-    } finally {
-      setRecommendLoading(false);
-    }
-  };
+  setRecommendLoading(true);
+  try {
+    const res = await axios.get(`${API_URL}/api/recommendations`, {
+      headers: { 
+        "x-auth-token": localStorage.getItem("token") 
+      }
+    });
+    setRecommendations(res.data.jobs || []);
+  } catch (error) {
+    setError(error.response?.data?.error || "Failed to get recommendations");
+  } finally {
+    setRecommendLoading(false);
+  }
+};
 
   if (loading) {
     return (
