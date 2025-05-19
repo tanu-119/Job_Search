@@ -7,7 +7,7 @@ const router = express.Router();
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-router.get("/", auth, async (req, res) => {
+router.get("/api/recommendations", auth, async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select("-password");
     const jobs = await Job.find();
