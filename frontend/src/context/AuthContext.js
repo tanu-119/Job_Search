@@ -30,13 +30,13 @@ export function AuthProvider({ children }) {
   }, []);
 
   const login = async (email, password) => {
-    const res = await axios.post(`${API_URL}/auth/login`, { email, password });
+    const res = await axios.post("https://job-search-backend-fw0t.onrender.com/api/auth/login", { email, password });
     localStorage.setItem("token", res.data.token);
     setUser(res.data.user);
   };
 
   const signup = async (name, email, password) => {
-    const res = await axios.post(`${API_URL}/auth/signup`, {
+    const res = await axios.post("https://job-search-backend-fw0t.onrender.com/api/auth/signup", {
       name,
       email,
       password,
