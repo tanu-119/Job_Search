@@ -17,26 +17,10 @@ import {
 } from "@mui/material";
 
 const skillsOptions = [
-  "React",
-  "JavaScript",
-  "Node.js",
-  "Python",
-  "Java",
-  "CSS",
-  "HTML",
-  "MongoDB",
-  "SQL",
-  "AWS",
-  "Docker",
-  "Kubernetes",
-  "Git",
-  "CI/CD",
-  "REST API",
-  "GraphQL",
-  "TypeScript",
-  "Redux",
-  "Express",
-  "Flask",
+  "React", "JavaScript", "Node.js", "Python", "Java",
+  "CSS", "HTML", "MongoDB", "SQL", "AWS",
+  "Docker", "Kubernetes", "Git", "CI/CD", "REST API",
+  "GraphQL", "TypeScript", "Redux", "Express", "Flask"
 ];
 
 const ProfilePage = () => {
@@ -45,7 +29,7 @@ const ProfilePage = () => {
     location: "",
     yearsOfExperience: 0,
     skills: [],
-    preferredJobType: "any",
+    preferredJobType: "any"
   });
   const [loading, setLoading] = useState(true);
   const [success, setSuccess] = useState(false);
@@ -58,9 +42,13 @@ const ProfilePage = () => {
             'x-auth-token': localStorage.getItem('token') 
           }
         });
-        setProfileData(res.data.profile || {});
-      } catch (err) {
-        console.error('Error fetching profile:', err);
+        if (res.data.profile) {
+          setProfile(res.data.profile);
+        }
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching profile:', error);
+        setLoading(false);
       }
     };
     fetchProfile();
@@ -68,31 +56,32 @@ const ProfilePage = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setProfile((prev) => ({ ...prev, [name]: value }));
+    setProfile(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSkillsChange = (event) => {
     const { value } = event.target;
-    setProfile((prev) => ({ ...prev, skills: value }));
+    setProfile(prev => ({ ...prev, skills: value }));
   };
 
   const handleSubmit = async (e) => {
-     e.preventDefault();
+    e.preventDefault();
     try {
       await axios.put(
         `${process.env.REACT_APP_API_URL}/api/profile`,
-        profileData,
+        profile,  // Changed from profileData to profile
         {
           headers: { 
             'x-auth-token': localStorage.getItem('token') 
           }
         }
       );
-      alert('Profile updated successfully!');
-    } catch (err) {
-      console.error('Error updating profile:', err);
+      setSuccess(true);
+      setTimeout(() => setSuccess(false), 3000);
+    } catch (error) {
+      console.error('Error updating profile:', error);
     }
-};
+  };
 
   if (loading) {
     return (
@@ -110,7 +99,7 @@ const ProfilePage = () => {
         <Typography variant="h4" gutterBottom>
           {user?.name}'s Profile
         </Typography>
-
+        
         {success && (
           <Alert severity="success" sx={{ mb: 3 }}>
             Profile updated successfully!
@@ -126,7 +115,7 @@ const ProfilePage = () => {
             value={profile.location}
             onChange={handleChange}
           />
-
+          
           <TextField
             label="Years of Experience"
             type="number"
@@ -137,7 +126,7 @@ const ProfilePage = () => {
             onChange={handleChange}
             inputProps={{ min: 0 }}
           />
-
+          
           <FormControl fullWidth margin="normal">
             <InputLabel>Skills</InputLabel>
             <Select
@@ -160,7 +149,7 @@ const ProfilePage = () => {
               ))}
             </Select>
           </FormControl>
-
+          
           <FormControl fullWidth margin="normal">
             <InputLabel>Preferred Job Type</InputLabel>
             <Select
@@ -174,8 +163,13 @@ const ProfilePage = () => {
               <MenuItem value="any">Any</MenuItem>
             </Select>
           </FormControl>
-
-          <Button type="submit" variant="contained" size="large" sx={{ mt: 3 }}>
+          
+          <Button 
+            type="submit" 
+            variant="contained" 
+            size="large" 
+            sx={{ mt: 3 }}
+          >
             Save Profile
           </Button>
         </Box>
