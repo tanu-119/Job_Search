@@ -10,7 +10,7 @@ const recommendationRoutes = require("./routes/recommendations");
 const app = express();
 
 app.use(cors({
-  origin: ["https://job-search-frontend-alqe.onrender.com"],
+  origin:"*",
   methods: ["GET", "POST", "PUT"],
   credentials: true
 }));
